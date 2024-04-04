@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}Вітання{% endblock %}
+
+{% block content %}
+<b><h1 style="color:red">Я вас вітаю тут!</h1></b>
+<p style="color:purple;">Якщо ви хочете поржати, то це до мене</p>
+<b><a href="{% url "main:about_site" %}" сlass="btn btn-secondary">Про сайт</a></b>
+{% endblock %}
