@@ -1,0 +1,13 @@
+<div class="card w-100 bg-base-200 shadow-xl transition-all duration-300 hover:shadow-2xl">
+    <a href="{% url "article:detail" post.id %}">
+        <figure><img src="{% if not post.image %}
+            https://tse4.mm.bing.net/th?id=OIP.NWe1ukHFnr2Q-6TuX_Xw4wHaE8&pid=Api&P=0&h=180
+            {% else %}
+            {{post.image.url}}
+            {% endif %} "alt="Shoes" class="w-full max-h-96"/></figure>
+        <div class="card-body">
+            <h2 class="card-title">{{post.title}}</h2>
+            <div class="card-actions justify-end"></div>
+        </div>
+    </a>
+</div>
