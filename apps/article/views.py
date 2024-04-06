@@ -5,12 +5,12 @@ from .forms import PostForm
 
 def index(request):
     all_posts = Post.objects.all()
-    
     context = {
         'all_posts': all_posts,
-        'created_form': PostForm()
+        'created_form': PostForm(),
+        
     }
-    return render(request, 'blog/index.html', context)
+    return render(request, 'article/index.html', context)
 
 
 def detail(request, post_id):
@@ -18,7 +18,7 @@ def detail(request, post_id):
     context = {
         'post': post
     }
-    return render(request, 'blog/detail.html', context)
+    return render(request, 'article/detail.html', context)
 
 
 def create_view(request):
@@ -28,4 +28,4 @@ def create_view(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect('blog:detail', post_id=post.id)
+            return redirect('article:detail', post_id=post.id)

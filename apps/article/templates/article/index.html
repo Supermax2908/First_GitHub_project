@@ -11,7 +11,7 @@
     <div class="grid grid-cols-3 gap-7 mt-10">
         {% for post in all_posts %}
         <div class="card w-100 bg-base-200 shadow-xl transition-all duration-300 hover:shadow-2xl">
-            <a href="{% url "blog:detail" post.id %}">
+            <a href="{% url "article:detail" post.id %}">
                 <figure><img src="{% if not post.image %}
                     https://tse4.mm.bing.net/th?id=OIP.NWe1ukHFnr2Q-6TuX_Xw4wHaE8&pid=Api&P=0&h=180
                     {% else %}
@@ -32,12 +32,11 @@
         <form method="dialog">
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
         </form>
-        <form action="{% url "blog:create" %}" method="post" enctype='multipart/form-data'>
+        <form action="{% url "article:create" %}" method="post" enctype='multipart/form-data'>
             {% csrf_token %}
             {{created_form}}
             <button class='btn btn-secondary'>Створити пост</button>
         </form>
-
     </div>
   </dialog>
 
