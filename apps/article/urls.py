@@ -4,6 +4,8 @@ from . import views
 app_name = 'article'
 
 urlpatterns = [
+    path('like/<int:post_id>/', views.like_view, name='like'),
+    path('dislike/<int:post_id>/', views.dislike_view, name='dislike'),
     path('', views.index, name='index'),
     path('post/<int:post_id>/', views.detail, name='detail'),
     path('create/', views.create_view, name='create')

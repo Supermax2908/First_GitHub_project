@@ -11,5 +11,8 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
+    like = models.ManyToManyField(User, related_name='like_posts', blank=True)
+    dislike = models.ManyToManyField(User, related_name='dislike_posts', blank=True)
+    
     class Meta:
         ordering = ['-created_at']

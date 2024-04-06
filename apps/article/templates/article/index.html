@@ -9,36 +9,56 @@
     <p class="mt-6">Кількість постів: {{count_posts}}</p>
     <a onclick="my_modal_4.showModal()" class="btn btn-accent mt-4">Створити пост</a>
     <hr class="mt-10" />
-    <div class="grid grid-cols-3 gap-7 mt-10">
+    <div class="grid grid-cols-3 gap-7 mt-6">
         {% for post in all_posts %}
-        <div class="card w-100 bg-base-200 shadow-xl transition-all duration-300 hover:shadow-2xl">
-            <a href="{% url "article:detail" post.id %}">
-                <figure><img src="{% if not post.image %}
-                    https://tse4.mm.bing.net/th?id=OIP.NWe1ukHFnr2Q-6TuX_Xw4wHaE8&pid=Api&P=0&h=180
-                    {% else %}
-                    {{post.image.url}}
-                    {% endif %} "alt="Shoes" class="w-full max-h-96"/></figure>
-                <div class="card-body">
-                    <h2 class="card-title">{{post.title}}</h2>
-                    <div class="card-actions justify-end"></div>
-                </div>
-            </a>
-        </div>
+        {% include 'article/_include_blocks/_card_post.html' with post=post %}
         {% endfor %}
     </div>
 </div>
 
 <dialog id="my_modal_4" class="modal">
     <div class="modal-box w-11/12 max-w-5xl">
-        <form method="dialog">
-            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+      <form method="dialog">
+          <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
         </form>
-        <form action="{% url "article:create" %}" method="post" enctype='multipart/form-data'>
-            {% csrf_token %}
-            {{created_form}}
-            <button class='btn btn-secondary'>Створити пост</button>
-        </form>
+      <h3 class="font-bold text-lg">Створити пост</h3>
+      <p class="py-4">Натисни нижче, щоб закрити</p>
+      <form action="{% url "article:create" %}" method="post" enctype='multipart/form-data'>
+        {% csrf_token %}
+        {{created_form}}
+        <b><button class='btn btn-primary'>СТВОРИТИ</button><b>
+      </form>
     </div>
   </dialog>
 
+
+  <script>
+    function like(id) {
+      fetch(`like/${id}`, {
+        method: 'GET' 
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById(`like_${id}`).innerHTML = `<i class="fa-sharp fa-solid fa-heart text-red-400"></i> ${data.likes}`;
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    }
+  </script>
+
+  <script>
+    function dislike(id) {
+      fetch(`dislike/${id}`, {
+        method: 'GET' 
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById(`dislike_${id}`).innerHTML = `<i class="fa-solid fa-thumbs-down text-black-300"</i> ${data.dislikes}`;
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    }
+  </script>
 {% endblock %}
