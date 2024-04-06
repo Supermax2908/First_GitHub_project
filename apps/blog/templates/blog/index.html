@@ -35,7 +35,7 @@
         <form action="{% url "blog:create" %}" method="post" enctype='multipart/form-data'>
             {% csrf_token %}
             {{created_form}}
-            <button class='btn btn-accent'>Створити пост</button>
+            <button class='btn btn-secondary'>Створити пост</button>
         </form>
 
     </div>
