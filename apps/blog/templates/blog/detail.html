@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}BLOG{% endblock %}
+
+{% block content %}
+<img src="{% if not post.image %}
+https://tse2.mm.bing.net/th?id=OIP.QexcnKLol8SaCraOMz2o6AHaFo&pid=Api&P=0&h=180
+{% else %}
+{{post.image.url}}
+{% endif %} "alt="Shoes" class="w-full max-h-96" />
+<h1 class="text 3x1 font-bold mb-4">{{post.title}}</h1>
+<p class="text-black-600 mb-4">{{post.content}}</p>
+<b><p class="text-blue-700 mb-4">Author: {{post.author}}</b></p>
+<p class="mb-4">{{post.created_at}}</p>juytumrymfgkiytresrrytuyiuoytrhsrtyiu
+<a href="{% url "blog:index" %}" class="btn btn-primary">Повернутися назад</a>
+{% endblock %}
