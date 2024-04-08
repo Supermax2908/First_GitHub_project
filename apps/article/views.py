@@ -38,6 +38,13 @@ def create_view(request):
             return redirect('article:detail', post_id=post.id)
         
 @login_required
+def delete_view(request, post_id):
+    if request.method == 'POST':
+        post = get_object_or_404(Post, pk=post_id, author=request.user)
+        post.delete()
+    return redirect('article:index')
+
+@login_required
 def like_view(request, post_id):
     if request.method == 'GET':
         post = get_object_or_404(Post, pk=post_id)

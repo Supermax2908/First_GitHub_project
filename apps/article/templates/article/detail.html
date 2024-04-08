@@ -7,12 +7,16 @@
 https://tse2.mm.bing.net/th?id=OIP.QexcnKLol8SaCraOMz2o6AHaFo&pid=Api&P=0&h=180
 {% else %}
 {{post.image.url}}
-{% endif %} "alt="Shoes" class="w-full max-h-96" />
-<h1 class="text 3x1 font-bold mb-4">{{post.title}}</h1>
+{% endif %} "alt="Shoes" class="w-full max-h-96 mb-4" />
+<h1 class="text-2xl mb-4">{{post.title}}</h1>
 <p class="text-black-600 mb-4">{{post.content}}</p>
-<b><p class="text-blue-700 mb-4">Author: {{post.author}}</b></p>
+<p class="text-blue-700 text-2xl mb-4">Author: {{post.author}}</p>
 <p class="mb-4">{{post.created_at}}</p>
 <p class="mx-auto my-10">Кількість коментарів - {{count_comments}}</p>
+{% if post.author == user %}
+<a onclick="delete_post.showModal()" class="btn btn-primary mb-4">Видалити</a>
+{% endif %}
+<input type="checkbox" value="business" class="toggle theme-controller rounded-full"/>
 <hr class="my-10">
 <h3 class="text-2x1 font-bold mb-4">Коментарі</h3>
 <form action="{% url "article:comment" post.id %}" method="post">
@@ -30,17 +34,37 @@ https://tse2.mm.bing.net/th?id=OIP.QexcnKLol8SaCraOMz2o6AHaFo&pid=Api&P=0&h=180
         <b><p class="text-blue-700 mb-4">Автор: {{coment.author}}</b></p>
         <p class="text-gray-600 mb-4">Був створений {{comment.created_at | timesince}} назад</p>
         <p>{{comment.content}}</p>
-        <button id="like_{{comment.id}}" onclick="like({{comment.id}})" class="btn text-lg my-5">
+        <button id="like_{{comment.id}}" onclick="like({{comment.id}})" class="btn text-lg my-5 btn-secondary">
             <i class="fa-sharp fa-solid fa-heart {% if user in comment.like.all %}text-red-400{% else %}text-white{% endif %}"></i>
             {{coment.like.count}}
         </button>
-        <button id="dislike_{{comment.id }}" onclick="dislike({{comment.id}})" class="btn text-lg">
+        <button id="dislike_{{comment.id }}" onclick="dislike({{comment.id}})" class="btn text-lg btn-secondary">
             <i class="fa-solid fa-thumbs-down {% if user in comment.dislike.all %}text-black-300{% else %}text-white{% endif %}"></i>
             {{comment.dislike.count}}
         </button>
     </div>
     {% endfor %}
 </div>
+
+<dialog id="delete_post" class="modal">
+  <div class="modal-box w-11/12 max-w-5x1">
+      <form method="dialog">
+          <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
+      </form>
+      <h3 class="font-bold text-lg mb-4">Видалити пост</h3>
+      <form action="{% url 'article:delete' post.id %}" method="post" enctype='multipart/form-data'>
+          {% csrf_token %}
+          <div class="grid grid-cols-1 gap-6">
+              <div class="form-control">
+                  <label class="label">
+                      <span class="label-text">Ви реально хочете видалити цей пост?</span>
+                  </label>
+              </div>
+              <button class="btn-btn-primary">ВИДАЛИТИ</button>
+          </div>
+      </form>
+  </div>
+</dialog>
 
 <script>
     function like(id) {

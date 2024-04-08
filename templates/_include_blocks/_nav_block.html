@@ -4,8 +4,8 @@
     </div>
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal px-1">
-        <li><a href="{% url "main:greeting" %}">lol</a></li>
-        <li><a href="{% url "article:index" %}">Blog</a></li>
+        <li class="hover:text-accent"><a href="{% url "main:greeting" %}">lol</a></li>
+        <li class="hover:text-orange-400"><a href="{% url "article:index" %}">Blog</a></li>
       </ul>
     </div>
     <div class="navbar-end hidden lg:flex">
@@ -17,14 +17,14 @@
           </div>
         </div>
         <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-200 rounded-box w-52">
-          <span class="p-2 text-sm text-primary">Hello, <b>{{user.username}}</b></span>
-          <li>
+          <span class="p-2 text-sm text-blue-400">Hello, <b>{{user.username}}</b></span>
+          <li class="text-green-600 hover:text-accent">
             <a class="justify-between" href="{% url "members:profile" %}">
               Profile
               <span class="badge">New</span>
             </a>
           </li>
-          <li><a href="{% url "members:logout" %}">Logout</a></li>
+          <li class="text-secondary hover:text-primary"><a href="{% url "members:logout" %}">Logout</a></li>
         </ul>
       </div>
       {% else %}

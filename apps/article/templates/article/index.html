@@ -7,7 +7,6 @@
     <h1 class="text 3x1 font-bold mb-4">Blog</h1>
     <p>Якщо ви добралися до цієї сторінки, то красавчики</p>
     <p class="mt-6">Кількість постів: {{count_posts}}</p>
-    <p class="mx-auto my-10">Кількість коментарів - {{count_comments}}</p>
     <a onclick="my_modal_4.showModal()" class="btn btn-accent mt-4">Створити пост</a>
     <hr class="mt-10" />
     <div class="grid grid-cols-3 gap-7 mt-6">
@@ -18,19 +17,34 @@
 </div>
 
 <dialog id="my_modal_4" class="modal">
-    <div class="modal-box w-11/12 max-w-5xl">
-      <form method="dialog">
-          <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-        </form>
-      <h3 class="font-bold text-lg">Створити пост</h3>
-      <p class="py-4">Натисни нижче, щоб закрити</p>
-      <form action="{% url "article:create" %}" method="post" enctype='multipart/form-data'>
-        {% csrf_token %}
-        {{created_form}}
-        <b><button class='btn btn-primary'>СТВОРИТИ</button><b>
+  <div class="modal-box w-11/12 max-w-5xl">
+    <form method="dialog">
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
       </form>
-    </div>
-  </dialog>
+    <h3 class="font-bold text-lg">Створити пост</h3>
+    <p class="py-4">Натисни нижче, щоб закрити</p>
+    <form action="{% url "article:create" %}" method="post" enctype='multipart/form-data'>
+        {% csrf_token %}
+        <div class="grid grid-cols-1 gap-6">
+          {% for field in created_form %}
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">{{field.label}}</span>
+            </label>
+            {% if field.name == 'content' %}
+            <textarea class="textarea h-24 textarea-bordered " name='{{field.name}}' placeholder="{{field.label}}" rows="10"></textarea>
+            {% elif field.name == 'image' %}
+            <input type='file' name='{{field.name}}' class="file-input file-input-bordered file-input-info w-full max-w-xs" placeholder="{{field.label}}"></input>
+            {% else %}
+            <input type='{{field.field.widget.input_type}}' name='{{field.name}}' class="input input-bordered" placeholder="{{field.label}}"></input>
+            {% endif %}
+          </div>
+          {% endfor %}
+          <b><button class='btn btn-primary'>СТВОРИТИ</button><b>
+        </div>
+    </form>
+  </div>
+</dialog>
 
 
   <script>
@@ -40,10 +54,15 @@
       })
       .then((res) => res.json())
       .then((data) => {
-        document.getElementById(`like_${id}`).innerHTML = `<i class="fa-sharp fa-solid fa-heart text-red-400"></i> ${data.likes}`;
-      })
+        if(data.user_like){
+          document.getElementById(`like_${id}`).innerHTML = `<i class="fa-sharp fa-solid fa-heart text-red-400"></i> ${data.like_count}`;
+      }else{
+          document.getElementById(`like_${id}`).innerHTML = `<i class="fa-sharp fa-solid fa-heart text-white"></i> ${data.like_count}`;
+      }
+    })
       .catch((error) => {
         console.error('Error:', error);
+        window.location.href = '{% url "members:login" %}';
       });
     }
   </script>
@@ -55,10 +74,15 @@
       })
       .then((res) => res.json())
       .then((data) => {
-        document.getElementById(`dislike_${id}`).innerHTML = `<i class="fa-solid fa-thumbs-down text-black-300"</i> ${data.dislikes}`;
-      })
+        if(data.user_dislike){
+          document.getElementById(`dislike_${id}`).innerHTML = `<i class="fa-solid fa-thumbs-down text-black-300"></i> ${data.dislike_count}`;
+      }else{
+          document.getElementById(`dislike_${id}`).innerHTML = `<i class="fa-solid fa-thumbs-down text-white"></i> ${data.dislike_count}`;
+      }
+    })
       .catch((error) => {
         console.error('Error:', error);
+        window.location.href = '{% url "members:login" %}';
       });
     }
   </script>
