@@ -12,11 +12,11 @@ https://tse2.mm.bing.net/th?id=OIP.QexcnKLol8SaCraOMz2o6AHaFo&pid=Api&P=0&h=180
 <p class="text-black-600 mb-4">{{post.content}}</p>
 <p class="text-blue-700 text-2xl mb-4">Author: {{post.author}}</p>
 <p class="mb-4">{{post.created_at}}</p>
-<p class="mx-auto my-10">Кількість коментарів - {{count_comments}}</p>
+<p class="mx-auto my-10">Кількість коментарів - {{post.count_comments}}</p>
 {% if post.author == user %}
 <a onclick="delete_post.showModal()" class="btn btn-primary mb-4">Видалити</a>
 {% endif %}
-<input type="checkbox" value="business" class="toggle theme-controller rounded-full"/>
+<input type="checkbox" value="dracula" class="toggle theme-controller rounded-full"/>
 <hr class="my-10">
 <h3 class="text-2x1 font-bold mb-4">Коментарі</h3>
 <form action="{% url "article:comment" post.id %}" method="post">

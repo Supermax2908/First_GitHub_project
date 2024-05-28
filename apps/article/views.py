@@ -73,7 +73,7 @@ def comment_view(request, post_id):
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = Comment.objects.create(
-                post = post,
+                post=post,
                 author = request.user,
                 content = form.cleaned_data['content']
             )
